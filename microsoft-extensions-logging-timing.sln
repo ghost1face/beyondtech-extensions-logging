@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{F02A2898-F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Extensions.Logging.Timing.Tests", "test\Microsoft.Extensions.Logging.Timing.Tests\Microsoft.Extensions.Logging.Timing.Tests.csproj", "{F1F74F1A-3835-4FAC-913D-6BC4ED09826D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "test\TestApp\TestApp.csproj", "{5290AB99-FE49-4680-B1F6-96EC2643A3D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,9 +30,14 @@ Global
 		{F1F74F1A-3835-4FAC-913D-6BC4ED09826D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1F74F1A-3835-4FAC-913D-6BC4ED09826D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1F74F1A-3835-4FAC-913D-6BC4ED09826D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5290AB99-FE49-4680-B1F6-96EC2643A3D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5290AB99-FE49-4680-B1F6-96EC2643A3D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5290AB99-FE49-4680-B1F6-96EC2643A3D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5290AB99-FE49-4680-B1F6-96EC2643A3D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{12205679-9ED9-4A03-949A-F8F0CCE7CAF6} = {E00C6BE8-92A7-4C43-AFD8-90F058AAA82D}
 		{F1F74F1A-3835-4FAC-913D-6BC4ED09826D} = {F02A2898-F6EA-4879-9AAF-9D3EA6DA574E}
+		{5290AB99-FE49-4680-B1F6-96EC2643A3D0} = {F02A2898-F6EA-4879-9AAF-9D3EA6DA574E}
 	EndGlobalSection
 EndGlobal
