@@ -40,7 +40,7 @@ namespace Microsoft.Extensions.Logging.Timing
         /// Abandon the timed operation with an included exception.
         /// </summary>
         /// <param name="operation">Operation to enrich and abandon.</param>
-        /// <param name="exception">Enricher related to the event.</param>
+        /// <param name="exception">Exception related to the event.</param>
         /// <seealso cref="Operation.Abandon()"/>
         /// <seealso cref="Operation.SetException(Exception)"/>
         public static void Abandon(this Operation operation, Exception exception)
