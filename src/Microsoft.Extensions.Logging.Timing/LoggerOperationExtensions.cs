@@ -46,7 +46,7 @@ namespace Microsoft.Extensions.Logging.Timing
         /// <returns>An object from which timings with the configured levels can be made.</returns>
         /// <remarks>If neither <paramref name="completion"/> nor <paramref name="abandonment"/> is enabled
         /// on the logger at the time of the call, a no-op result is returned.</remarks>
-        public static LevelledOperation OperationAt(this ILogger logger, LogLevel completion, LogLevel? abandonment = null, TimeSpan? warningThreshold = null)
+        public static LeveledOperation OperationAt(this ILogger logger, LogLevel completion, LogLevel? abandonment = null, TimeSpan? warningThreshold = null)
         {
             if (logger == null) throw new ArgumentNullException(nameof(logger));
 
@@ -54,10 +54,10 @@ namespace Microsoft.Extensions.Logging.Timing
             if (!logger.IsEnabled(completion) &&
                 (appliedAbandonment == completion || !logger.IsEnabled(appliedAbandonment)))
             {
-                return LevelledOperation.None;
+                return LeveledOperation.None;
             }
 
-            return new LevelledOperation(logger, completion, appliedAbandonment, warningThreshold);
+            return new LeveledOperation(logger, completion, appliedAbandonment, warningThreshold);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using Microsoft.Extensions.Logging.Timing.Configuration;
 
 namespace Microsoft.Extensions.Logging.Timing
 {
@@ -67,45 +68,6 @@ namespace Microsoft.Extensions.Logging.Timing
             return Stopwatch.GetTimestamp() / StopwatchToTimeSpanTicks;
         }
 
-        ///// <summary>
-        ///// Begin a new timed operation. The return value must be completed using <see cref="Complete()"/>,
-        ///// or disposed to record abandonment.
-        ///// </summary>
-        ///// <param name="messageTemplate">A log message describing the operation, in message template format.</param>
-        ///// <param name="args">Arguments to the log message. These will be stored and captured only when the
-        ///// operation completes, so do not pass arguments that are mutated during the operation.</param>
-        ///// <returns>An <see cref="Operation"/> object.</returns>
-        //public static Operation Begin(string messageTemplate, params object[] args)
-        //{
-        //    return Log.Logger.BeginOperation(messageTemplate, args);
-        //}
-
-        ///// <summary>
-        ///// Begin a new timed operation. The return value must be disposed to complete the operation.
-        ///// </summary>
-        ///// <param name="messageTemplate">A log message describing the operation, in message template format.</param>
-        ///// <param name="args">Arguments to the log message. These will be stored and captured only when the
-        ///// operation completes, so do not pass arguments that are mutated during the operation.</param>
-        ///// <returns>An <see cref="Operation"/> object.</returns>
-        //public static IDisposable Time(string messageTemplate, params object[] args)
-        //{
-        //    return Log.Logger.TimeOperation(messageTemplate, args);
-        //}
-
-        ///// <summary>
-        ///// Configure the logging levels used for completion and abandonment events.
-        ///// </summary>
-        ///// <param name="completion">The level of the event to write on operation completion.</param>
-        ///// <param name="abandonment">The level of the event to write on operation abandonment; if not
-        ///// specified, the <paramref name="completion"/> level will be used.</param>
-        ///// <returns>An object from which timings with the configured levels can be made.</returns>
-        ///// <remarks>If neither <paramref name="completion"/> nor <paramref name="abandonment"/> is enabled
-        ///// on the logger at the time of the call, a no-op result is returned.</remarks>
-        //public static LevelledOperation At(LogLevel completion, LogLevel? abandonment = null)
-        //{
-        //    return Log.Logger.OperationAt(completion, abandonment);
-        //}
-
         /// <summary>
         /// Returns the elapsed time of the operation. This will update during the operation, and be frozen once the
         /// operation is completed or canceled.
@@ -143,16 +105,16 @@ namespace Microsoft.Extensions.Logging.Timing
         /// <summary>
         /// Complete the timed operation with an included result value.
         /// </summary>
-        /// <param name="resultPropertyName">The name for the property to attach to the event.</param>
-        /// <param name="result">The result value.</param>
-        public void Complete(string resultPropertyName, object result)
+        /// <param name="template">The name for the property to attach to the event.</param>
+        /// <param name="args">The result value.</param>
+        public void Complete(string template, params object[] args)
         {
-            if (resultPropertyName == null) throw new ArgumentNullException(nameof(resultPropertyName));
+            if (template == null) throw new ArgumentNullException(nameof(template));
 
             if (_completionBehavior == CompletionBehavior.Silent)
                 return;
 
-            using (_logger.BeginScope($"{resultPropertyName}: {{Result}}", result))
+            using (_logger.BeginScope(template, args))
             {
                 Write(_logger, _completionLevel, OutcomeCompleted);
             }
@@ -181,8 +143,8 @@ namespace Microsoft.Extensions.Logging.Timing
 
         /// <summary>
         /// Dispose the operation. If not already completed or canceled, an event will be written
-        /// with timing information. Operations started with <see cref="Time"/> will be completed through
-        /// disposal. Operations started with <see cref="Begin"/> will be recorded as abandoned.
+        /// with timing information. Operations started with <see cref="LeveledOperation.Time"/> will be completed through
+        /// disposal. Operations started with <see cref="LeveledOperation.Begin"/> will be recorded as abandoned.
         /// </summary>
         public void Dispose()
         {
@@ -206,17 +168,17 @@ namespace Microsoft.Extensions.Logging.Timing
             PopLogContext();
         }
 
-        void StopTiming()
+        private void StopTiming()
         {
             _stop ??= GetTimestamp();
         }
 
-        void PopLogContext()
+        private void PopLogContext()
         {
             _popContext.Dispose();
         }
 
-        void Write(ILogger target, LogLevel level, string outcome)
+        private void Write(ILogger target, LogLevel level, string outcome)
         {
             StopTiming();
             _completionBehavior = CompletionBehavior.Silent;
@@ -231,46 +193,6 @@ namespace Microsoft.Extensions.Logging.Timing
 
             PopLogContext();
         }
-
-        ///// <summary>
-        ///// Enriches resulting log event via the provided enricher.
-        ///// </summary>
-        ///// <param name="enricher">Enricher that applies in the context.</param>
-        ///// <returns>Same <see cref="Operation"/>.</returns>
-        ///// <seealso cref="ILogger.ForContext(ILogEventEnricher)"/>
-        //public Operation EnrichWith(ILogEventEnricher enricher)
-        //{
-        //    _logger = _logger.ForContext(enricher);
-        //    return this;
-        //}
-
-        ///// <summary>
-        ///// Enriches resulting log event via the provided enrichers.
-        ///// </summary>
-        ///// <param name="enrichers">Enrichers that apply in the context.</param>
-        ///// <returns>A logger that will enrich log events as specified.</returns>
-        ///// <returns>Same <see cref="Operation"/>.</returns>
-        ///// <seealso cref="ILogger.ForContext(IEnumerable{ILogEventEnricher})"/>
-        //public Operation EnrichWith(IEnumerable<ILogEventEnricher> enrichers)
-        //{
-        //    _logger = _logger.ForContext(enrichers);
-        //    return this;
-        //}
-
-        ///// <summary>
-        ///// Enriches resulting log event with the specified property.
-        ///// </summary>
-        ///// <param name="propertyName">The name of the property. Must be non-empty.</param>
-        ///// <param name="value">The property value.</param>
-        ///// <param name="destructureObjects">If true, the value will be serialized as a structured
-        ///// object if possible; if false, the object will be recorded as a scalar or simple array.</param>
-        ///// <returns>Same <see cref="Operation"/>.</returns>
-        ///// <seealso cref="ILogger.ForContext(string,object,bool)"/>
-        //public Operation EnrichWith(string propertyName, object value, bool destructureObjects = false)
-        //{
-        //    _logger = _logger.ForContext(propertyName, value, destructureObjects);
-        //    return this;
-        //}
 
         /// <summary>
         /// Enriches resulting log event with the given exception.

@@ -6,7 +6,7 @@ namespace Microsoft.Extensions.Logging.Timing.Configuration
     /// <summary>
     /// Launches <see cref="Operation"/>s with non-default completion and abandonment levels.
     /// </summary>
-    public class LevelledOperation
+    public class LeveledOperation
     {
         readonly Operation? _cachedResult;
 
@@ -15,7 +15,7 @@ namespace Microsoft.Extensions.Logging.Timing.Configuration
         readonly LogLevel _abandonment;
         readonly TimeSpan? _warningThreshold;
 
-        internal LevelledOperation(ILogger logger, LogLevel completion, LogLevel abandonment, TimeSpan? warningThreshold = null)
+        internal LeveledOperation(ILogger logger, LogLevel completion, LogLevel abandonment, TimeSpan? warningThreshold = null)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _completion = completion;
@@ -23,12 +23,12 @@ namespace Microsoft.Extensions.Logging.Timing.Configuration
             _warningThreshold = warningThreshold;
         }
 
-        LevelledOperation(Operation cachedResult)
+        LeveledOperation(Operation cachedResult)
         {
             _cachedResult = cachedResult ?? throw new ArgumentNullException(nameof(cachedResult));
         }
 
-        internal static LevelledOperation None { get; } = new LevelledOperation(
+        internal static LeveledOperation None { get; } = new LeveledOperation(
             new Operation(
                 NullLogger.Instance,
                 "", Array.Empty<object>(),

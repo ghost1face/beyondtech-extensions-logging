@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
+using Microsoft.Extensions.Logging.Timing.Tests.Utilities;
 using Xunit;
 
 namespace Microsoft.Extensions.Logging.Timing.Tests
@@ -201,99 +198,6 @@ namespace Microsoft.Extensions.Logging.Timing.Tests
 
             Assert.Single(logs);
             Assert.Contains("System.Exception", logs[0]);
-        }
-    }
-
-    public class TailLogger : IDisposable
-    {
-        public ILogger Logger { get; }
-        private readonly IList<string> _logs;
-
-        private readonly IDisposable _reader;
-
-        public TailLogger(IList<string> logs)
-        {
-            _logs = logs;
-            _reader = ConsoleReader.Begin(logs);
-
-            Logger = LoggerFactory.Create(builder =>
-            {
-                builder
-                    .SetMinimumLevel(LogLevel.Trace)
-                    .AddSimpleConsole(options =>
-                    {
-                        options.IncludeScopes = true;
-                    });
-            }).CreateLogger("TailLogger");
-        }
-
-        public void Dispose()
-        {
-            _reader.Dispose();
-        }
-    }
-
-    internal class ConsoleReader : IDisposable
-    {
-        private readonly IList<string> _logs;
-        private readonly TextWriter _backupOut;
-        private readonly TextWriter _tempOut;
-
-        public ConsoleReader(IList<string> logs)
-        {
-            _logs = logs;
-            _backupOut = System.Console.Out;
-            _tempOut = new StringWriter();
-
-            System.Console.SetOut(_tempOut);
-        }
-
-        public static IDisposable Begin(IList<string> logs)
-        {
-            return new ConsoleReader(logs);
-        }
-
-        public void Dispose()
-        {
-            Thread.Sleep(100);
-
-            FillLogs();
-
-            _tempOut.Dispose();
-
-            System.Console.SetOut(_backupOut);
-        }
-
-        private void FillLogs()
-        {
-            if (_logs.Any())
-                return;
-
-            var output = _tempOut.ToString() ?? string.Empty;
-
-            StringBuilder builder = null;
-            Regex newLogMessageIdentifier = new Regex("^(dbug|info|warn|fail|crit):");
-            foreach (var o in output!.Split(Environment.NewLine))
-            {
-                if (newLogMessageIdentifier.IsMatch(o))
-                {
-                    if (builder != null)
-                    {
-                        _logs.Add(builder.ToString().Trim());
-                    }
-
-                    builder = new StringBuilder(o);
-                }
-                else
-                {
-                    builder?.Append(o);
-                }
-            }
-
-            if (builder != null)
-            {
-                _logs.Add(builder.ToString().Trim());
-            }
         }
     }
 
