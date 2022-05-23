@@ -9,12 +9,12 @@ namespace BeyondTech.Extensions.Logging.Timing.Configuration
     /// </summary>
     public class LeveledOperation
     {
-        readonly Operation? _cachedResult;
+        private readonly Operation? _cachedResult;
 
-        readonly ILogger? _logger;
-        readonly LogLevel _completion;
-        readonly LogLevel _abandonment;
-        readonly TimeSpan? _warningThreshold;
+        private readonly ILogger? _logger;
+        private readonly LogLevel _completion;
+        private readonly LogLevel _abandonment;
+        private readonly TimeSpan? _warningThreshold;
 
         internal LeveledOperation(ILogger logger, LogLevel completion, LogLevel abandonment, TimeSpan? warningThreshold = null)
         {

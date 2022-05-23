@@ -40,14 +40,15 @@ namespace BeyondTech.Extensions.Logging.Timing
         private readonly string _messageTemplate;
         private readonly object[] _args;
         private readonly long _start;
-        private long? _stop;
 
         private readonly IDisposable _popContext;
-        private CompletionBehavior _completionBehavior;
         private readonly LogLevel _completionLevel;
         private readonly LogLevel _abandonmentLevel;
         private readonly TimeSpan? _warningThreshold;
+
+        private CompletionBehavior _completionBehavior;
         private Exception? _exception;
+        private long? _stop;
 
         internal Operation(ILogger logger, string messageTemplate, object[] args,
             CompletionBehavior completionBehavior, LogLevel completionLevel, LogLevel abandonmentLevel,
@@ -115,10 +116,7 @@ namespace BeyondTech.Extensions.Logging.Timing
             if (_completionBehavior == CompletionBehavior.Silent)
                 return;
 
-            using (_logger.BeginScope(template, args))
-            {
-                Write(_logger, _completionLevel, OutcomeCompleted);
-            }
+            Write(_logger, _completionLevel, OutcomeCompleted, template, args);
         }
 
         /// <summary>
@@ -179,9 +177,10 @@ namespace BeyondTech.Extensions.Logging.Timing
             _popContext.Dispose();
         }
 
-        private void Write(ILogger target, LogLevel level, string outcome)
+        private void Write(ILogger target, LogLevel level, string outcome, string messageFormat = null, object[] args = null)
         {
             StopTiming();
+
             _completionBehavior = CompletionBehavior.Silent;
 
             var elapsed = Elapsed.TotalMilliseconds;
@@ -190,7 +189,20 @@ namespace BeyondTech.Extensions.Logging.Timing
                 ? LogLevel.Warning
                 : level;
 
-            target.Log(level, _exception, $"{_messageTemplate} {{{nameof(Properties.Outcome)}}} in {{{nameof(Properties.Elapsed)}:0.0}} ms", _args.Concat(new object[] { outcome, elapsed }).ToArray());
+            IDisposable optionalScope = null;
+            try
+            {
+                if (messageFormat != null)
+                {
+                    optionalScope = target.BeginScope(messageFormat, args);
+                }
+
+                target.Log(level, _exception, $"{_messageTemplate} {{{nameof(Properties.Outcome)}}} in {{{nameof(Properties.Elapsed)}:0.0}} ms", _args.Concat(new object[] { outcome, elapsed }).ToArray());
+            }
+            finally
+            {
+                optionalScope?.Dispose();
+            }
 
             PopLogContext();
         }

@@ -1,4 +1,3 @@
-
 using System;
 using BeyondTech.Extensions.Logging.Timing;
 using Microsoft.Extensions.Logging;
@@ -6,6 +5,7 @@ using Microsoft.Extensions.Logging;
 var factory = LoggerFactory.Create(builder =>
 {
     builder
+        .SetMinimumLevel(LogLevel.Trace)
         .AddSimpleConsole(options =>
         {
             options.IncludeScopes = true;
@@ -18,23 +18,10 @@ try
 {
     logger.LogInformation("Hello, world!");
 
-    //using (var operation = logger.TimeOperation("Timed operation"))
-    //using (logger.BeginScope(new Dictionary<string, object>
-    //{
-    //    { "Huh", "Wut" }
-    //}))
-    //{
-    //    logger.LogError("Logged error in scope");
-
-    //    //operation.Complete("Blah", 1);
-    //}
-
-    var leveledOperation = logger.OperationAt(LogLevel.Debug, LogLevel.Critical, TimeSpan.FromSeconds(1));
-    using (var timedOperation = leveledOperation.Begin("Test"))
+    using (var op = logger.BeginOperation("Processing data {Data}", 123))
     {
-        // long operation/code here
-
-        timedOperation.Abandon();
+        await System.Threading.Tasks.Task.Delay(400);
+        op.Complete("Data processed with status code: {StatusCode}", 200);
     }
 
     return 0;
