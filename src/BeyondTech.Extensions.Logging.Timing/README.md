@@ -1,4 +1,4 @@
-# Timing Extensions
+# Timing Extensions  [![Coverage Status](https://coveralls.io/repos/github/ghost1face/beyondtech-extensions-logging/badge.svg?branch=master)](https://coveralls.io/github/ghost1face/beyondtech-extensions-logging?branch=master)
 
 This library is a direct port of @nblumhardt 's [Serilog Timing](https://github.com/nblumhardt/serilog-timings) for usage directly with Microsoft's `ILogger`.  This library provides ***almost*** all the same benefits of the Serilog Timing, but expands the support for any implementation of `ILogger`.
 
