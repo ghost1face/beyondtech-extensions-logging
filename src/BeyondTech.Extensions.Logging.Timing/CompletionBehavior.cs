@@ -1,4 +1,4 @@
-﻿namespace Microsoft.Extensions.Logging.Timing
+﻿namespace BeyondTech.Extensions.Logging.Timing
 {
     enum CompletionBehavior
     {

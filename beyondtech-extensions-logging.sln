@@ -1,25 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E00C6BE8-92A7-4C43-AFD8-90F058AAA82D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Extensions.Logging.Timing", "src\Microsoft.Extensions.Logging.Timing\Microsoft.Extensions.Logging.Timing.csproj", "{12205679-9ED9-4A03-949A-F8F0CCE7CAF6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeyondTech.Extensions.Logging.Timing", "src\BeyondTech.Extensions.Logging.Timing\BeyondTech.Extensions.Logging.Timing.csproj", "{12205679-9ED9-4A03-949A-F8F0CCE7CAF6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{F02A2898-F6EA-4879-9AAF-9D3EA6DA574E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Extensions.Logging.Timing.Tests", "test\Microsoft.Extensions.Logging.Timing.Tests\Microsoft.Extensions.Logging.Timing.Tests.csproj", "{F1F74F1A-3835-4FAC-913D-6BC4ED09826D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "test\TestApp\TestApp.csproj", "{5290AB99-FE49-4680-B1F6-96EC2643A3D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeyondTech.Extensions.Logging.Timing.Tests", "test\BeyondTech.Extensions.Logging.Timing.Tests\BeyondTech.Extensions.Logging.Timing.Tests.csproj", "{F1F74F1A-3835-4FAC-913D-6BC4ED09826D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{12205679-9ED9-4A03-949A-F8F0CCE7CAF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -30,14 +25,15 @@ Global
 		{F1F74F1A-3835-4FAC-913D-6BC4ED09826D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1F74F1A-3835-4FAC-913D-6BC4ED09826D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1F74F1A-3835-4FAC-913D-6BC4ED09826D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5290AB99-FE49-4680-B1F6-96EC2643A3D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5290AB99-FE49-4680-B1F6-96EC2643A3D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5290AB99-FE49-4680-B1F6-96EC2643A3D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5290AB99-FE49-4680-B1F6-96EC2643A3D0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{12205679-9ED9-4A03-949A-F8F0CCE7CAF6} = {E00C6BE8-92A7-4C43-AFD8-90F058AAA82D}
 		{F1F74F1A-3835-4FAC-913D-6BC4ED09826D} = {F02A2898-F6EA-4879-9AAF-9D3EA6DA574E}
-		{5290AB99-FE49-4680-B1F6-96EC2643A3D0} = {F02A2898-F6EA-4879-9AAF-9D3EA6DA574E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B86435DD-FD29-43F6-A1D3-6535E4FC11CC}
 	EndGlobalSection
 EndGlobal

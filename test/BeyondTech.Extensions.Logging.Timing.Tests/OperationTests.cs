@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using Microsoft.Extensions.Logging.Timing.Tests.Utilities;
+using BeyondTech.Extensions.Logging.Timing.Tests.Utilities;
+using Microsoft.Extensions.Logging;
 using Xunit;
 
-namespace Microsoft.Extensions.Logging.Timing.Tests
+namespace BeyondTech.Extensions.Logging.Timing.Tests
 {
     public class OperationTests
     {

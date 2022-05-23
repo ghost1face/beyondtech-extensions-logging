@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Microsoft.Extensions.Logging.Timing
+namespace BeyondTech.Extensions.Logging.Timing
 {
     /// <summary>
     /// Exception-handling related helpers for <see cref="Operation"/>.

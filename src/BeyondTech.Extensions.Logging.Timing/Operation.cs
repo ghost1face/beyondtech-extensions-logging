@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
-using Microsoft.Extensions.Logging.Timing.Configuration;
+using BeyondTech.Extensions.Logging.Timing.Configuration;
+using Microsoft.Extensions.Logging;
 
-namespace Microsoft.Extensions.Logging.Timing
+namespace BeyondTech.Extensions.Logging.Timing
 {
     /// <summary>
     /// Records operation timings for an instance of ILogger.
@@ -13,7 +14,7 @@ namespace Microsoft.Extensions.Logging.Timing
         /// <summary>
         /// Property names attached to events by <see cref="Operation"/>s.
         /// </summary>
-        public enum Properties
+        enum Properties
         {
             /// <summary>
             /// The timing, in milliseconds.
@@ -46,7 +47,7 @@ namespace Microsoft.Extensions.Logging.Timing
         private readonly LogLevel _completionLevel;
         private readonly LogLevel _abandonmentLevel;
         private readonly TimeSpan? _warningThreshold;
-        Exception? _exception;
+        private Exception? _exception;
 
         internal Operation(ILogger logger, string messageTemplate, object[] args,
             CompletionBehavior completionBehavior, LogLevel completionLevel, LogLevel abandonmentLevel,
@@ -162,7 +163,7 @@ namespace Microsoft.Extensions.Logging.Timing
                     break;
 
                 default:
-                    throw new InvalidOperationException("Unknown underlying state value");
+                    break;
             }
 
             PopLogContext();

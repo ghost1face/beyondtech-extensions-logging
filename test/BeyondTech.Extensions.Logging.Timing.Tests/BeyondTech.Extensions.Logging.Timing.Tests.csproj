@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Microsoft.Extensions.Logging.Timing\Microsoft.Extensions.Logging.Timing.csproj" />
+    <ProjectReference Include="..\..\src\BeyondTech.Extensions.Logging.Timing\BeyondTech.Extensions.Logging.Timing.csproj" />
   </ItemGroup>
 
 </Project>

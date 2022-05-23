@@ -1,7 +1,8 @@
 ﻿using System;
-using Microsoft.Extensions.Logging.Timing.Configuration;
+using BeyondTech.Extensions.Logging.Timing.Configuration;
+using Microsoft.Extensions.Logging;
 
-namespace Microsoft.Extensions.Logging.Timing
+namespace BeyondTech.Extensions.Logging.Timing
 {
     /// <summary>
     /// Extends <see cref="ILogger"/> with timed operations.

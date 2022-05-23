@@ -1,8 +1,7 @@
 
 using System;
-using System.Collections.Generic;
+using BeyondTech.Extensions.Logging.Timing;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Timing;
 
 var factory = LoggerFactory.Create(builder =>
 {
@@ -30,10 +29,12 @@ try
     //    //operation.Complete("Blah", 1);
     //}
 
-    var x = logger.OperationAt(LogLevel.Debug, LogLevel.Critical, TimeSpan.FromSeconds(1));
-    using (var y = x.Begin("Test"))
+    var leveledOperation = logger.OperationAt(LogLevel.Debug, LogLevel.Critical, TimeSpan.FromSeconds(1));
+    using (var timedOperation = leveledOperation.Begin("Test"))
     {
-        y.Abandon();
+        // long operation/code here
+
+        timedOperation.Abandon();
     }
 
     return 0;

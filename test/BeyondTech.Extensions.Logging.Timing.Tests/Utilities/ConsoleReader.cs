@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 
-namespace Microsoft.Extensions.Logging.Timing.Tests.Utilities
+namespace BeyondTech.Extensions.Logging.Timing.Tests.Utilities
 {
     internal class ConsoleReader : IDisposable
     {

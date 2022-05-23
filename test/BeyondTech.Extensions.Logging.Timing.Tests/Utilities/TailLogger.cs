@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
 
-namespace Microsoft.Extensions.Logging.Timing.Tests.Utilities
+namespace BeyondTech.Extensions.Logging.Timing.Tests.Utilities
 {
     public sealed class TailLogger : IDisposable
     {
