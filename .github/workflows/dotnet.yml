@@ -26,5 +26,5 @@ jobs:
     - name: Publish coverage report
       uses: coverallsapp/github-action@master
       with:
-        # github-token: ${{ secrets.GITHUB_TOKEN }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
         path-to-lcov: ./test/BeyondTech.Extensions.Logging.Timing.Tests/coverage.info
