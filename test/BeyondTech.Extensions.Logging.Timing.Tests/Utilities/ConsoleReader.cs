@@ -46,7 +46,7 @@ namespace BeyondTech.Extensions.Logging.Timing.Tests.Utilities
 
             var output = _tempOut.ToString() ?? string.Empty;
 
-            StringBuilder builder = null;
+            StringBuilder? builder = null;
             Regex newLogMessageIdentifier = new("^(dbug|info|warn|fail|crit):");
             foreach (var o in output!.Split(Environment.NewLine))
             {
