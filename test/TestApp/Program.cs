@@ -1,4 +1,3 @@
-using System;
 using BeyondTech.Extensions.Logging.Timing;
 using Microsoft.Extensions.Logging;
 
@@ -26,7 +25,7 @@ try
 
     return 0;
 }
-catch (Exception ex)
+catch
 {
     return -1;
 }

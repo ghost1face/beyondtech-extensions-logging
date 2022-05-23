@@ -247,9 +247,11 @@ namespace BeyondTech.Extensions.Logging.Timing.Tests
         public void Operation_ThrowsWhenILoggerIsNull()
         {
             ILogger? logger = null;
+#pragma warning disable CS8604 // Possible null reference argument.
             Assert.Throws<ArgumentNullException>(() => logger.OperationAt(LogLevel.Information));
             Assert.Throws<ArgumentNullException>(() => logger.BeginOperation(""));
             Assert.Throws<ArgumentNullException>(() => logger.TimeOperation(""));
+#pragma warning restore CS8604 // Possible null reference argument.
         }
     }
 }
