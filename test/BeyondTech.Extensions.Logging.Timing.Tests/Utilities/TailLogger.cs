@@ -10,14 +10,14 @@ namespace BeyondTech.Extensions.Logging.Timing.Tests.Utilities
 
         private readonly IDisposable _reader;
 
-        public TailLogger(IList<string> logs)
+        public TailLogger(IList<string> logs, LogLevel minimumLevel = LogLevel.Trace)
         {
             _reader = ConsoleReader.Begin(logs);
 
             Logger = LoggerFactory.Create(builder =>
             {
                 builder
-                    .SetMinimumLevel(LogLevel.Trace)
+                    .SetMinimumLevel(minimumLevel)
                     .AddSimpleConsole(options =>
                     {
                         options.IncludeScopes = true;

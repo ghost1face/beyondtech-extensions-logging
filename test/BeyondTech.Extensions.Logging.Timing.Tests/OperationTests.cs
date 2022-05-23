@@ -185,6 +185,22 @@ namespace BeyondTech.Extensions.Logging.Timing.Tests
         }
 
         [Fact]
+        public void OperationAt_LogsNothingIfLogLevelIsNotSpecified()
+        {
+            var logs = new List<string>();
+
+            const string operationName = "Long Op!";
+
+            using (var logger = new TailLogger(logs, LogLevel.Critical))
+            using (var operation = logger.Logger.OperationAt(LogLevel.Debug, LogLevel.Debug, TimeSpan.FromMilliseconds(1)).Begin(operationName))
+            {
+                operation.Complete();
+            }
+
+            Assert.Empty(logs);
+        }
+
+        [Fact]
         public void Operation_LogsExceptionWhenSet()
         {
             var logs = new List<string>();
@@ -200,6 +216,40 @@ namespace BeyondTech.Extensions.Logging.Timing.Tests
             Assert.Single(logs);
             Assert.Contains("System.Exception", logs[0]);
         }
-    }
 
+        [Fact]
+        public void Operation_SetExceptionAndRethrow_Throws()
+        {
+            var logs = new List<string>();
+
+            Assert.Throws<NotImplementedException>(() =>
+            {
+                using (var logger = new TailLogger(logs))
+                using (var op = logger.Logger.BeginOperation("Performing work"))
+                {
+                    try
+                    {
+                        throw new NotImplementedException();
+                    }
+                    catch (Exception ex) when (op.SetExceptionAndRethrow(ex))
+                    {
+                        // this line should never be hit
+                        Assert.True(false);
+                    }
+                }
+            });
+
+            Assert.Single(logs);
+            Assert.Contains("System.NotImplementedException", logs[0]);
+        }
+
+        [Fact]
+        public void Operation_ThrowsWhenILoggerIsNull()
+        {
+            ILogger? logger = null;
+            Assert.Throws<ArgumentNullException>(() => logger.OperationAt(LogLevel.Information));
+            Assert.Throws<ArgumentNullException>(() => logger.BeginOperation(""));
+            Assert.Throws<ArgumentNullException>(() => logger.TimeOperation(""));
+        }
+    }
 }
