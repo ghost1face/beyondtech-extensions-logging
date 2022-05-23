@@ -50,7 +50,8 @@ namespace BeyondTech.Extensions.Logging.Timing
         public static LeveledOperation OperationAt(this ILogger logger, LogLevel completion, LogLevel? abandonment = null,
             TimeSpan? warningThreshold = null)
         {
-            if (logger == null) throw new ArgumentNullException(nameof(logger));
+            if (logger == null)
+                throw new ArgumentNullException(nameof(logger));
 
             var appliedAbandonment = abandonment ?? completion;
             if (!logger.IsEnabled(completion) &&
