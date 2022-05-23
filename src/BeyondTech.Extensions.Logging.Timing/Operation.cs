@@ -111,7 +111,8 @@ namespace BeyondTech.Extensions.Logging.Timing
         /// <param name="args">The result value.</param>
         public void Complete(string template, params object[] args)
         {
-            if (template == null) throw new ArgumentNullException(nameof(template));
+            if (template == null)
+                throw new ArgumentNullException(nameof(template));
 
             if (_completionBehavior == CompletionBehavior.Silent)
                 return;
@@ -177,7 +178,7 @@ namespace BeyondTech.Extensions.Logging.Timing
             _popContext.Dispose();
         }
 
-        private void Write(ILogger target, LogLevel level, string outcome, string messageFormat = null, object[] args = null)
+        private void Write(ILogger target, LogLevel level, string outcome, string? messageFormat = null, object[]? args = null)
         {
             StopTiming();
 
@@ -189,7 +190,7 @@ namespace BeyondTech.Extensions.Logging.Timing
                 ? LogLevel.Warning
                 : level;
 
-            IDisposable optionalScope = null;
+            IDisposable? optionalScope = null;
             try
             {
                 if (messageFormat != null)

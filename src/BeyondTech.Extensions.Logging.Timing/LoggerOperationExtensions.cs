@@ -47,7 +47,8 @@ namespace BeyondTech.Extensions.Logging.Timing
         /// <returns>An object from which timings with the configured levels can be made.</returns>
         /// <remarks>If neither <paramref name="completion"/> nor <paramref name="abandonment"/> is enabled
         /// on the logger at the time of the call, a no-op result is returned.</remarks>
-        public static LeveledOperation OperationAt(this ILogger logger, LogLevel completion, LogLevel? abandonment = null, TimeSpan? warningThreshold = null)
+        public static LeveledOperation OperationAt(this ILogger logger, LogLevel completion, LogLevel? abandonment = null,
+            TimeSpan? warningThreshold = null)
         {
             if (logger == null) throw new ArgumentNullException(nameof(logger));
 
