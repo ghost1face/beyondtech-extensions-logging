@@ -221,7 +221,7 @@ namespace BeyondTech.Extensions.Logging.Timing.Tests
         public void Operation_SetExceptionAndRethrow_Throws()
         {
             var logs = new List<string>();
-
+            
             Assert.Throws<NotImplementedException>(() =>
             {
                 using (var logger = new TailLogger(logs))
