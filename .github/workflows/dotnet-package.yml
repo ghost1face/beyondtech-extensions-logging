@@ -19,8 +19,6 @@ jobs:
           dotnet-version: '6.0.x'
       - run: dotnet build --configuration Release .
       - name: Publish the package to nuget.org
-        run: |
-          dotnet nuget push src/BeyondTech.Extensions.Logging.Timing/bin/Release/*.nupkg -k $NUGET_AUTH_TOKEN -s https://api.nuget.org/v3/index.json
-          dotnet nuget push src/BeyondTech.Extensions.Logging.Timing/bin/Release/*.snupkg -k $NUGET_AUTH_TOKEN -s https://api.nuget.org/v3/index.json
+        run: dotnet nuget push src/BeyondTech.Extensions.Logging.Timing/bin/Release/*.nupkg -k $NUGET_AUTH_TOKEN -s https://api.nuget.org/v3/index.json --skip-duplicate
         env:
           NUGET_AUTH_TOKEN: ${{secrets.NUGET_TOKEN}}
