@@ -4,3 +4,4 @@
 **/.vs/
 **/.vscode/
 *.csproj.user
+coverage.*.info
