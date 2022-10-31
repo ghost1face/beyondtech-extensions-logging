@@ -15,12 +15,15 @@ var logger = factory.CreateLogger<Program>();
 
 try
 {
-    logger.LogInformation("Hello, world!");
-
-    using (var op = logger.BeginOperation("Processing data {Data}", 123))
+    using (logger.TimeOperation("Full operation"))
     {
-        await System.Threading.Tasks.Task.Delay(400);
-        op.Complete("Data processed with status code: {StatusCode}", 200);
+        logger.LogInformation("Hello, world!");
+
+        using (var op = logger.BeginOperation("Processing data {Data}", 123))
+        {
+            await System.Threading.Tasks.Task.Delay(400);
+            op.Complete("Data processed with status code: {StatusCode}", 200);
+        }
     }
 
     return 0;
