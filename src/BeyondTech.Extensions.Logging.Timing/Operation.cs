@@ -34,7 +34,7 @@ namespace BeyondTech.Extensions.Logging.Timing
 
         private const string OutcomeCompleted = "completed";
         private const string OutcomeAbandoned = "abandoned";
-        private static readonly long StopwatchToTimeSpanTicks = Stopwatch.Frequency / TimeSpan.TicksPerSecond;
+        private static readonly double StopwatchToTimeSpanTicks = (double)Stopwatch.Frequency / TimeSpan.TicksPerSecond;
 
         private readonly ILogger _logger;
         private readonly string _messageTemplate;
@@ -67,7 +67,7 @@ namespace BeyondTech.Extensions.Logging.Timing
 
         private static long GetTimestamp()
         {
-            return Stopwatch.GetTimestamp() / StopwatchToTimeSpanTicks;
+            return unchecked((long)(Stopwatch.GetTimestamp() / StopwatchToTimeSpanTicks));
         }
 
         /// <summary>
