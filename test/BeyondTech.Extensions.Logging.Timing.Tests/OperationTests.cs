@@ -159,7 +159,7 @@ namespace BeyondTech.Extensions.Logging.Timing.Tests
             const string operationName = "Long Op!";
 
             using (var logger = new TailLogger(logs))
-            using (var operation = logger.Logger.OperationAt(LogLevel.Debug, LogLevel.Critical, TimeSpan.FromMilliseconds(1)).Begin(operationName))
+            using (var operation = logger.Logger.OperationAt(LogLevel.Debug, LogLevel.Critical, TimeSpan.FromMilliseconds(1000)).Begin(operationName))
             {
                 operation.Abandon();
             }
@@ -176,7 +176,7 @@ namespace BeyondTech.Extensions.Logging.Timing.Tests
             const string operationName = "Long Op!";
 
             using (var logger = new TailLogger(logs))
-            using (var operation = logger.Logger.OperationAt(LogLevel.Debug, LogLevel.Critical, TimeSpan.FromMilliseconds(1)).Begin(operationName))
+            using (var operation = logger.Logger.OperationAt(LogLevel.Debug, LogLevel.Critical, TimeSpan.FromMilliseconds(1000)).Begin(operationName))
             {
                 operation.Complete();
             }
@@ -193,7 +193,7 @@ namespace BeyondTech.Extensions.Logging.Timing.Tests
             const string operationName = "Long Op!";
 
             using (var logger = new TailLogger(logs, LogLevel.Critical))
-            using (var operation = logger.Logger.OperationAt(LogLevel.Debug, LogLevel.Debug, TimeSpan.FromMilliseconds(1)).Begin(operationName))
+            using (var operation = logger.Logger.OperationAt(LogLevel.Debug, LogLevel.Debug, TimeSpan.FromMilliseconds(1000)).Begin(operationName))
             {
                 operation.Complete();
             }
@@ -223,7 +223,7 @@ namespace BeyondTech.Extensions.Logging.Timing.Tests
             const string operationName = "Long Op!";
 
             using (var logger = new TailLogger(logs))
-            using (var operation = logger.Logger.OperationAt(LogLevel.Debug, LogLevel.Critical, TimeSpan.FromMilliseconds(1)).Begin(operationName))
+            using (var operation = logger.Logger.OperationAt(LogLevel.Debug, LogLevel.Critical, TimeSpan.FromMilliseconds(1000)).Begin(operationName))
             {
                 operation.Complete("This is complete!");
             }
