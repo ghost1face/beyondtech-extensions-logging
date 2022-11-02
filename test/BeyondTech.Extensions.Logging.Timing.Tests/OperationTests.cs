@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using BeyondTech.Extensions.Logging.Timing.Tests.Utilities;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
 
 namespace BeyondTech.Extensions.Logging.Timing.Tests
@@ -158,7 +159,7 @@ namespace BeyondTech.Extensions.Logging.Timing.Tests
             const string operationName = "Long Op!";
 
             using (var logger = new TailLogger(logs))
-            using (var operation = logger.Logger.OperationAt(LogLevel.Debug, LogLevel.Critical, TimeSpan.FromMilliseconds(1)).Begin(operationName))
+            using (var operation = logger.Logger.OperationAt(LogLevel.Debug, LogLevel.Critical, TimeSpan.FromMilliseconds(1000)).Begin(operationName))
             {
                 operation.Abandon();
             }
@@ -175,7 +176,7 @@ namespace BeyondTech.Extensions.Logging.Timing.Tests
             const string operationName = "Long Op!";
 
             using (var logger = new TailLogger(logs))
-            using (var operation = logger.Logger.OperationAt(LogLevel.Debug, LogLevel.Critical, TimeSpan.FromMilliseconds(1)).Begin(operationName))
+            using (var operation = logger.Logger.OperationAt(LogLevel.Debug, LogLevel.Critical, TimeSpan.FromMilliseconds(1000)).Begin(operationName))
             {
                 operation.Complete();
             }
@@ -192,12 +193,44 @@ namespace BeyondTech.Extensions.Logging.Timing.Tests
             const string operationName = "Long Op!";
 
             using (var logger = new TailLogger(logs, LogLevel.Critical))
-            using (var operation = logger.Logger.OperationAt(LogLevel.Debug, LogLevel.Debug, TimeSpan.FromMilliseconds(1)).Begin(operationName))
+            using (var operation = logger.Logger.OperationAt(LogLevel.Debug, LogLevel.Debug, TimeSpan.FromMilliseconds(1000)).Begin(operationName))
             {
                 operation.Complete();
             }
 
             Assert.Empty(logs);
+        }
+
+        [Fact]
+        public void Operation_ThrowsWhenCompleteIsCalledWithANullTemplate()
+        {
+            const string operationName = "Long Op!";
+
+            var logger = NullLogger<string>.Instance;
+            using (var operation = logger.BeginOperation(operationName))
+            {
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+                Assert.Throws<ArgumentNullException>(() => operation.Complete(null));
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
+            }
+        }
+
+        [Fact]
+        public void Operation_LogsMessageOnComplete()
+        {
+            var logs = new List<string>();
+
+            const string operationName = "Long Op!";
+
+            using (var logger = new TailLogger(logs))
+            using (var operation = logger.Logger.OperationAt(LogLevel.Debug, LogLevel.Critical, TimeSpan.FromMilliseconds(1000)).Begin(operationName))
+            {
+                operation.Complete("This is complete!");
+            }
+
+            Assert.Single(logs);
+            Assert.StartsWith("dbug:", logs[0]);
+            Assert.Contains("This is complete", logs[0]);
         }
 
         [Fact]
@@ -247,9 +280,29 @@ namespace BeyondTech.Extensions.Logging.Timing.Tests
         public void Operation_ThrowsWhenILoggerIsNull()
         {
             ILogger? logger = null;
+#pragma warning disable CS8604 // Possible null reference argument.
             Assert.Throws<ArgumentNullException>(() => logger.OperationAt(LogLevel.Information));
             Assert.Throws<ArgumentNullException>(() => logger.BeginOperation(""));
             Assert.Throws<ArgumentNullException>(() => logger.TimeOperation(""));
+#pragma warning restore CS8604 // Possible null reference argument.
+        }
+
+        [Fact]
+        public void Operation_ThrowsWhenMessageTemplateIsNull()
+        {
+#pragma warning disable CS8604 // Possible null reference argument.
+            string? messageTemplate = null;
+            Assert.Throws<ArgumentNullException>(() => NullLogger<string>.Instance.BeginOperation(messageTemplate));
+#pragma warning restore CS8604 // Possible null reference argument.
+        }
+
+        [Fact]
+        public void Operation_ThrowsWhenArgsAreNull()
+        {
+#pragma warning disable CS8604 // Possible null reference argument.
+            object[]? args = null;
+            Assert.Throws<ArgumentNullException>(() => NullLogger<string>.Instance.BeginOperation("This is a template", args));
+#pragma warning restore CS8604 // Possible null reference argument.
         }
     }
 }
